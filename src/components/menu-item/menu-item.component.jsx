@@ -1,11 +1,13 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import './menu-item.style.scss';
 
-const MenuItem = ({ title, imageUrl, size }) => {   // {title} , in place of this props and props.title can also be used . 
+const MenuItem = ({ title, imageUrl, size, history, linkUrl, match }) => {   // {title} , in place of this props and props.title can also be used . 
     return (
         <div            
-            className={`${size} menu-item`}
+            className={`${size} menu-item`} 
+            onClick={() => history.push(`${match.url}${linkUrl}`)}
         > {/*Menu component */}
             <div className="background-image hover" 
                 style={{
@@ -20,4 +22,4 @@ const MenuItem = ({ title, imageUrl, size }) => {   // {title} , in place of thi
     )
 }
 
-export default MenuItem;
+export default withRouter(MenuItem);
