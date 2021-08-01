@@ -1,3 +1,4 @@
 body { 
     font-family: 'Open Sans Condensed';
+    padding: 80px 20px;            /* 80px from top and bottom, and 20px from the side  */
 }
