@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './form-input.style.scss';
+import './form-input.style.css';
 
 // making custom input and button component so can make consistent styling through out the webpage
 // these will be used in the sign-up option also . 

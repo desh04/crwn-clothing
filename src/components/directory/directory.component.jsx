@@ -2,7 +2,7 @@ import React from 'react';
 
 import MenuItem from '../menu-item/menu-item.component';
 
-import './directory.style.scss';
+import './directory.style.css';
 
 //going to use class cause it will require state value of menu item to pass 
 class Directory extends React.Component {

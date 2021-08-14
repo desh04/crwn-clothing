@@ -1,9 +1,15 @@
 import React from 'react';
 
-import './custom-button.style.scss';
-
-const CustomButton = ({ children, ...otherProps }) => (
-    <button className='custom-button' {...otherProps}>
+import './custom-button.style.css';
+// will be conditionally rendering the class name based on if we are signed in or not 
+// will use prop named isGoogleSignIn 
+// if isGoogleSignIn is true the google-sign-in class name will be added with the custom-button class.
+// Otherwise only custom-cutton class name will be added. 
+const CustomButton = ({ children, isGoogleSignIn, ...otherProps }) => (
+    <button
+        className= {`${ isGoogleSignIn ? 'google-sign-in' : ''} custom-button`} 
+        {...otherProps}
+    >
         {children}
     </button>
 )
