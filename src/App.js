@@ -54,7 +54,7 @@ class App extends React.Component {
               ...snapShot.data()
             }
           });
-          console.log(this.state);
+          //console.log(this.state);
         });
         //console.log(this.state);  //async operation and it's out side so will give NULL.
       } else {

@@ -4,7 +4,7 @@ import { ReactComponent as Logo} from '../../assets/crown.svg';
 import { auth } from '../../firebase/firebase.utilis';
 
 import './header.style.css';
-import { dom } from 'aria-query';
+//import { dom } from 'aria-query';
 
 //Logo will be link to the homepage . 
 // will use link from the react-router-dom for this 
