@@ -1,0 +1,26 @@
+.sign-up {
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+}
+.sign-up .title {
+    margin: 10px 0;         /* 10 px top bottom and 0px left and right */
+}
+
+
+
+
+
+
+
+/* -------------------SASS code----------------
+.sign-up {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+
+  .title {
+    margin: 10px 0;
+  }
+}
+*/

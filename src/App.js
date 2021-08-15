@@ -7,7 +7,7 @@ import HomePage from './pages/homepage/homepage.component.jsx';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component.jsx'
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import { auth } from './firebase/firebase.utilis';
+import { auth, creatUserProfileDocument } from './firebase/firebase.utilis';
 
 /* const HatsPage = () => (
   
@@ -37,10 +37,31 @@ class App extends React.Component {
   componentDidMount() {
     // auth is open subscription method
     // onAuthStateChanged method on auth library takes state of user as parameter.  
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
+    this.unsubscribeFromAuth = auth.onAuthStateChanged( async userAuth => {
+      //this.setState({ currentUser: user });
+      //creatUserProfileDocument(user);       //used when making database in firebase
+      if (userAuth) {     // if user has signed in . 
+        const userRef = await creatUserProfileDocument(userAuth);       
+        // will get back the userRef from creatUserProfileDocument method userAUth passed in . if document is there. 
+        // if document is not there, will create new obect(see firebase file) and document . and get the userRef then 
 
-      console.log(user);
+        // the code below will send us a snapshot of data that is currently stored in database. 
+        userRef.onSnapshot( snapShot => {
+          //console.log(snapShot, snapShot.data());\
+          this.setState( {
+            currentUser:{
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          });
+          console.log(this.state);
+        });
+        //console.log(this.state);  //async operation and it's out side so will give NULL.
+      } else {
+        this.setState({ currentUser: userAuth});     // setting it to null so browser knows. user is not signed in.
+      }
+
+      //console.log(user);
     }
     );
     // this open subscription is open messaging system between our application and our firebase app.
