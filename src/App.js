@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch , Route } from 'react-router-dom';
+import { Switch , Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'; // so APP component can update the user
 
 import './App.css';
@@ -100,14 +100,28 @@ class App extends React.Component {
         <Switch>     
           <Route exact path="/" component={HomePage} />
           {/* <Route exact path="/hats" component={HatsPage} /> using for the demonstration perpose only*/}
-          <Route exact path='/shop' component={ShopPage} />
-          <Route exact path='/signIn' component={SignInAndSignUpPage} />
+          <Route path='/shop' component={ShopPage} />
+          <Route 
+            exact 
+            path='/signIn' 
+            render={() =>
+                this.props.currentUser ? ( 
+                  <Redirect to ='/' />
+                ) : (
+                  <SignInAndSignUpPage />
+                )
+              } />
         </Switch> 
       </div>
     );
   }
   
 }
+
+//using it in redirecting the user.
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+})
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
@@ -118,4 +132,4 @@ const mapDispatchToProps = dispatch => ({
 // cause it only set the current user value ,
 // so passing null as first argument
 // second argument will be mapDispatchToProps 
-export default connect(null, mapDispatchToProps)(App); 
+export default connect(mapStateToProps, mapDispatchToProps)(App); 
