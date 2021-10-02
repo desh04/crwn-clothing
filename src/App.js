@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch , Route } from 'react-router-dom';
+import { connect } from 'react-redux'; // so APP component can update the user
 
 import './App.css';
 
@@ -8,6 +9,7 @@ import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component.jsx'
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import { auth, creatUserProfileDocument } from './firebase/firebase.utilis';
+import { setCurrentUser } from './redux/user/user.action';
 
 /* const HatsPage = () => (
   
@@ -24,6 +26,7 @@ import { auth, creatUserProfileDocument } from './firebase/firebase.utilis';
 // so will convert the Function component to class component.
 
 class App extends React.Component {
+/* //doesn't need this after implimenting the connect with the mapDispatchToProps 
   constructor() {
     super();
 
@@ -31,10 +34,13 @@ class App extends React.Component {
       currentUser: null
     }
   }
-
+ */
   unsubscribeFromAuth = null
 
   componentDidMount() {
+
+    const { setCurrentUser } = this.props;
+
     // auth is open subscription method
     // onAuthStateChanged method on auth library takes state of user as parameter.  
     this.unsubscribeFromAuth = auth.onAuthStateChanged( async userAuth => {
@@ -48,17 +54,22 @@ class App extends React.Component {
         // the code below will send us a snapshot of data that is currently stored in database. 
         userRef.onSnapshot( snapShot => {
           //console.log(snapShot, snapShot.data());\
-          this.setState( {
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data()
+          });
+          /* this.setState( {
             currentUser:{
               id: snapShot.id,
               ...snapShot.data()
             }
-          });
+          }); */
           //console.log(this.state);
         });
         //console.log(this.state);  //async operation and it's out side so will give NULL.
       } else {
-        this.setState({ currentUser: userAuth});     // setting it to null so browser knows. user is not signed in.
+        /* this.setState({ currentUser: userAuth}); */     // setting it to null so browser knows. user is not signed in.
+        setCurrentUser(userAuth);
       }
 
       //console.log(user);
@@ -85,7 +96,7 @@ class App extends React.Component {
       <div>
         {/*need to aware the Header that person is signINed */
         /* for this we will give header user current state access */ }
-        <Header currentUser= { this.state.currentUser } /> 
+        <Header />  {/* <Header currentUser= { this.state.currentUser } /> was this before the redux */} 
         <Switch>     
           <Route exact path="/" component={HomePage} />
           {/* <Route exact path="/hats" component={HatsPage} /> using for the demonstration perpose only*/}
@@ -98,4 +109,13 @@ class App extends React.Component {
   
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+
+// connnect first argument is mapStateToProps, in The App component don't need that
+// cause it only set the current user value ,
+// so passing null as first argument
+// second argument will be mapDispatchToProps 
+export default connect(null, mapDispatchToProps)(App); 
