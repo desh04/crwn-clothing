@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as Logo} from '../../assets/crown.svg';
 import { auth } from '../../firebase/firebase.utilis';
 
+import CartIcon from '../cart-icon/cart-icon.cpmponent';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+
 import { connect } from 'react-redux';
 
 import './header.style.css';
@@ -11,7 +14,7 @@ import './header.style.css';
 //Logo will be link to the homepage . 
 // will use link from the react-router-dom for this 
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, hidden }) => {
     return(
         <div className='header'>
             <Link className='logo-container' to='/'>
@@ -30,14 +33,20 @@ const Header = ({ currentUser }) => {
                     :
                     <Link className='option' to='signIn'> SIGN IN </Link> }
                 </Link>
+                <CartIcon />
             </div>
-
+            {
+                hidden ? null : <CartDropdown />
+            }
+            
         </div>
     )
 };
 
-const mapStateToProps = state => ({
-    currentUser: state.user.currentUser
+// destructuring nested values = {user: { currentUser }, cart: { hidden }}
+const mapStateToProps = ({user: { currentUser }, cart: { hidden }}) => ({
+    currentUser, 
+    hidden
 });
 
 export default connect(mapStateToProps)(Header);
