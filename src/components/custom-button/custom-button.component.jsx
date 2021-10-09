@@ -5,13 +5,15 @@ import './custom-button.style.css';
 // will use prop named isGoogleSignIn 
 // if isGoogleSignIn is true the google-sign-in class name will be added with the custom-button class.
 // Otherwise only custom-cutton class name will be added. 
-const CustomButton = ({ children, isGoogleSignIn, ...otherProps }) => (
+const CustomButton = ({ children, isGoogleSignIn, inverted, ...otherProps }) => (
     <button
-        className= {`${ isGoogleSignIn ? 'google-sign-in' : ''} custom-button`} 
+        className= {`${ inverted ? 'inverted' : ''} ${ 
+            isGoogleSignIn ? 'google-sign-in' : ''
+        } custom-button`} 
         {...otherProps}
     >
         {children}
     </button>
-)
+);
 
 export default CustomButton;
