@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { toggleCartHidden } from '../../redux/cart/cart.action';
+import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
 
 import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';
 
@@ -13,13 +14,12 @@ const CartIcon = ({ toggleCartHidden, itemCount }) => (
         <span className='item-count'>{itemCount}</span>
     </div>
 );
-// my try to increase the number in the cart
+// The code below is also called selector
+// selector - some code that gets a state, and pulls of a small portion 
+// or a slice of that state. 
 
-const mapStateToProps = ({ cart: { cartItems } }) => ({
-    itemCount: cartItems.reduce(function(acc, curr){
-        acc = acc + curr.quantity;
-        return acc;
-    }, 0)
+const mapStateToProps = (state) => ({
+    itemCount: selectCartItemsCount(state)
 });
 
 // del above in case of problem
