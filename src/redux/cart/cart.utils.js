@@ -15,3 +15,19 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
     // {...cartItemToAdd, quantity:1} this code adds a new key in the object named quantity with the initial value of 1.
     return [...cartItems, {...cartItemToAdd, quantity:1}];
 }
+
+export const removeItemFromCart = (cartItem, cartItemToRemove) => {
+    const existingCartItem = cartItem.find(
+        cartItem => cartItem.id === cartItemToRemove.id
+    )
+
+    if (existingCartItem.quantity === 1) {
+        return cartItem.filter(cartItem => cartItem.id !== cartItemToRemove.id)
+    }
+
+    return cartItem.map(cartItem =>
+        cartItem.id === cartItemToRemove.id
+            ? {...cartItem, quantity: cartItem.quantity - 1}
+            : cartItem
+        )
+}
