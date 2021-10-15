@@ -23,6 +23,10 @@
     margin-top: auto;
 }
 
+.cart-dropdown .empty-message{
+  font-size: 18px;
+  margin: auto;
+}
 
 /* SCSS code 
 .cart-dropdown {

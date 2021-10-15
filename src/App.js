@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch , Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'; // so APP component can update the user
+import { createStructuredSelector } from 'reselect';
 
 import './App.css';
 
@@ -8,8 +9,11 @@ import HomePage from './pages/homepage/homepage.component.jsx';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component.jsx'
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import CheckoutPage from './pages/checkout/checkout.component';
+
 import { auth, creatUserProfileDocument } from './firebase/firebase.utilis';
 import { setCurrentUser } from './redux/user/user.action';
+import { selectCurrentUser } from './redux/user/user.selector';
 
 /* const HatsPage = () => (
   
@@ -111,6 +115,7 @@ class App extends React.Component {
                   <SignInAndSignUpPage />
                 )
               } />
+          <Route exact path='/checkout' component={CheckoutPage} />
         </Switch> 
       </div>
     );
@@ -119,8 +124,8 @@ class App extends React.Component {
 }
 
 //using it in redirecting the user.
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 })
 
 const mapDispatchToProps = dispatch => ({
