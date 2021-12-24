@@ -3,6 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 // middleware between the action and store
 // will show the action, use full in debugging the code
 import logger from 'redux-logger';
+import { persistStore } from "redux-persist";
 
 import rootReducer from './root-reducer';
 
@@ -14,6 +15,13 @@ const middlewares = [logger];
 // in the future. and this will make our code more scaleable. 
 
 // setting up store
-const store = createStore(rootReducer, applyMiddleware(...middlewares))
+export const store = createStore(rootReducer, applyMiddleware(...middlewares))
 
-export default store;
+// persistor is persisted version of the store
+export const persistor = persistStore(store);
+
+// exporting object with both store and persistor 
+export default { store, persistor };
+
+// 2:30 min
+
